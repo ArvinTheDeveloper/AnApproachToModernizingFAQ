@@ -109,12 +109,41 @@ $( document ).ready(function() {
         if(arrQA.length < 0)
             return arrQA;
     }
+
+    //Parse File 
+    function handleFileSelect(event){
+        if(!(event.target && event.target.files && event.target.files[0])){
+            return;
+        }
+
+        //Handle the csv file
+        var csvFile = event.target.files[0];
+
+        Papa.parse(csvFile, {
+            header: true,
+            dynamicTyping: true,
+            delimiter:";",
+            complete: function(results){
+                var data = results.data;
+
+                //Call is async. needs callback in order to work with items
+                debugDataset(results);
+            }
+        });
+    }
+
+    function debugDataset(dataset) {
+        var formatted = JSON.stringify(dataset, null, 2);
+    }
+
     /**
      * addListeners: Sets listeners to elements of index.html
      */
     function addListeners(){
         console.log("arvin: Entered addlistneres()");
 
+        $("#input-questions").change(handleFileSelect);
+        /*
         $("#input-questions").change(function () {
             var inputQuestions = $("#input-questions");
             if (inputQuestions == null)
@@ -123,10 +152,11 @@ $( document ).ready(function() {
             console.log("arvin:inputQuestions.files[0]: " + inputQuestions[0].files[0]);
 
             parseFile(inputQuestions[0]);
-        });
+        });*/
+
     }addListeners();
 });
-
+/*
 <script> 
 // Requiring fs module in which 
 // readFile function is defined. 
@@ -143,4 +173,4 @@ fs.readFile('Input.txt', 'utf-8', (err, data) => {
 	// data using tostring function. 
 	console.log(data); 
 }) 
-</script> 
+</script> */
