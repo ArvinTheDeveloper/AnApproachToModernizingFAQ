@@ -135,7 +135,7 @@ $( document ).ready(function() {
     }
 
     function handleDataset(dataset) {
-        //Converts parsed CSV file
+        //Handle parsed CSV file
         var arrayQnA = [];
         for(var i = 0; i < dataset.data.length; i++)
         {
@@ -143,36 +143,17 @@ $( document ).ready(function() {
         }
 
         console.log("Chris: Nr of elements in array = " + arrayQnA.length);
-        //Function for creating and appenidng rows to JS.
+        //Function for creating and appenidng rows.
 
         arrayQnA.forEach(element => {
             
             console.log("Chris log: ", element.Id);
 
             //Create and append rows in table
-
+            var newRowContent = "<tr><td>" + element.Id + "</td><td>" + element.Question + "</td><td>" + element.Answer + "</td><td>";
+            
+            $("#mytbody").append(newRowContent);
         });
-
-        //could replace arrayQnA with dataset...    
-       /* for (let item of arrayQnA) {
-            row = table.insertRow(-1);
-            for (let key in item) {
-                var cell = row.insertCell(-1);
-                cell.innerHTML = item[key];
-            }
-        }*/
-        /*
-        for (let item of arrayQnA) {
-            for (let key in item) {
-                
-                //var table = document.createElement("table");
-
-                $("#myTable tbody").append(item[key]);
-
-            }
-        }*/
-
-        
     }
 
     /**
