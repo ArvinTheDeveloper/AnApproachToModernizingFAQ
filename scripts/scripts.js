@@ -128,12 +128,23 @@ $( document ).ready(function() {
 
                 //Call is async. needs callback in order to work with items
                 handleDataset(results);
+                $(function() {
+                    $("td[colspan=3]").find("p").hide();
+                });
             }
         });
-
-
     }
 
+    document.getElementById("myTable").addEventListener("click", function(event) {
+        event.stopPropagation();
+        var $target = $(event.target);
+        if ( $target.closest("td").attr("colspan") > 1 && !$target.attr("colspan")) {
+            $target.slideUp();
+        } else if((!$target.closest("td").attr("colspan")) || $target.closest("td").attr("colspan") < 1){
+            $target.closest("tr").next().find("p").slideToggle();
+        }                
+    });
+    
     function handleDataset(dataset) {
         //Handle parsed CSV file
         var arrayQnA = [];
@@ -150,12 +161,15 @@ $( document ).ready(function() {
             console.log("Chris log: ", element.Id);
 
             //Create and append rows in table
-            var newRowContent = "<tr><td>" + element.Id + "</td><td>" + element.Question + "</td><td>" + element.Answer + "</td><td>";
+            //var newRowContent = "<tr><td>" + element.Id + "</td><td>" + element.Question + "</td><td>" + element.Answer + "</td></tr>";
+            var newRowContent = "<tr><td><p>" + element.Id + "</p></td><td><p>" + element.Question + "</p></td></tr>";
+            var tmpRowContent = "<tr><td colspan='3'><p>" + element.Answer + "</p></td></tr>";
             
             $("#mytbody").append(newRowContent);
+            $("#mytbody").append(tmpRowContent);
+            
         });
     }
-
     /**
      * addListeners: Sets listeners to elements of index.html
      */
@@ -163,6 +177,7 @@ $( document ).ready(function() {
         console.log("arvin: Entered addlistneres()");
 
         $("#input-questions").change(handleFileSelect);
+
         /*
         $("#input-questions").change(function () {
             var inputQuestions = $("#input-questions");
