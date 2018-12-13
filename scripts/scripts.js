@@ -77,18 +77,18 @@ $( document ).ready(function() {
      */
     function parseFile(input){
 
-        console.log("arvin: ParseFile: input.target.files[0]: " + input.files[0] + "input.files[0]: " + input.files[0]);
+        console.log("arvin: ParseFile: input.target.files[0]: " + input.target.files[0] + "input.files[0]: " + input.target.files[0]);
 
-        if (!input || !input.files[0])
+        if (!input || !input.target.files[0])
             return null;
 
-        const file = input.files[0];
+        const file = input.target.files[0];
         const reader = new FileReader();
         var arrQA = [];
         var regex = /\d*?(?=\.)/;
 
         reader.onload = (event) => {
-            const file = event.target.result;
+            const file = reader.readAsText(event.target.result);
             const allLines = file.split(/\r\n|\n/);
             // Reading line by line
             for(var i = 0; i < allLines.length; i++){
@@ -112,35 +112,41 @@ $( document ).ready(function() {
     /**
      * addListeners: Sets listeners to elements of index.html
      */
-    function addListeners(){
-        console.log("arvin: Entered addlistneres()");
+    // function addListeners(){
+    //     console.log("arvin: Entered addlistneres()");
 
-        $("#input-questions").change(function () {
-            var inputQuestions = $("#input-questions");
-            if (inputQuestions == null)
-                return;
+    //     $("#input-questions").change(function () {
+    //         var inputQuestions = $("#input-questions");
+    //         if (inputQuestions == null)
+    //             return;
             
-            console.log("arvin:inputQuestions.files[0]: " + inputQuestions[0].files[0]);
+    //         console.log("arvin:inputQuestions.files[0]: " + inputQuestions[0].files[0]);
 
-            parseFile(inputQuestions[0]);
-        });
-    }addListeners();
+    //         parseFile(inputQuestions[0]);
+    //     });
+    // }addListeners();
+
+    function readSingleFile(evt) {
+        //Retrieve the first (and only!) File from the FileList object
+        var f = evt.target.files[0]; 
+        parseFile(evt);
+    //     if (f) {
+    //       var r = new FileReader();
+    //       r.onload = function(e) { 
+    //           var contents = e.target.result;
+    //         alert( "Got the file.n" 
+    //               +"name: " + f.name + "n"
+    //               +"type: " + f.type + "n"
+    //               +"size: " + f.size + " bytesn"
+    //               + "starts with: " + contents.substr(1, contents.indexOf("n"))
+    //         );  
+    //       }
+    //       r.readAsText(f);
+    //     } else { 
+    //       alert("Failed to load file");
+    //     }
+    //   }
+    }
+      document.getElementById('input-questions').addEventListener('change', readSingleFile, false);
+
 });
-
-<script> 
-// Requiring fs module in which 
-// readFile function is defined. 
-const fs = require('fs') 
-
-// Reading data in utf-8 format 
-// which is a type of character set. 
-// Instead of 'utf-8' it can be 
-// other character set also like 'ascii' 
-fs.readFile('Input.txt', 'utf-8', (err, data) => { 
-	if (err) throw err; 
-
-	// Converting Raw Buffer to text 
-	// data using tostring function. 
-	console.log(data); 
-}) 
-</script> 
