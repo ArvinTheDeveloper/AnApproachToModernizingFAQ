@@ -136,6 +136,11 @@ $( document ).ready(function() {
     }
 
     document.getElementById("myTable").addEventListener("click", function(event) {
+        // $('td[colspan]').each(function() {
+        //     if ($(this).is(":visible"))
+             
+        //     $(this).hide(1000);
+        // });
         event.stopPropagation();
         var $target = $(event.target);
         if ( $target.closest("td").attr("colspan") > 1 && !$target.attr("colspan")) {
@@ -143,6 +148,8 @@ $( document ).ready(function() {
         } else if((!$target.closest("td").attr("colspan")) || $target.closest("td").attr("colspan") < 1){
             $target.closest("tr").next().find("p").slideToggle();
         }                
+
+        
     });
     
     function handleDataset(dataset) {
@@ -169,6 +176,8 @@ $( document ).ready(function() {
             $("#mytbody").append(tmpRowContent);
             
         });
+
+         $(".form-wrapper").hide();
     }
     /**
      * addListeners: Sets listeners to elements of index.html
